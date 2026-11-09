@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In • WA Offer Sender</title>
+
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --cyan-glow: #38bdf8;
+      --cyan-bright: #67e8f9;
+      --bg-dark: #03060c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      user-select: none;
+    }
+
+    /* =======================================================
+       1. BACKGROUND: SLEEK 3D METALLIC RIBBONS & GLOSSY ORBS
+       ======================================================= */
+    .scene-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.15) 0%, rgba(2, 132, 199, 0.04) 45%, transparent 70%),
+        linear-gradient(180deg, #050a14 0%, #020408 100%);
+    }
+
+    /* Pita Metalik 3D Melengkung (seperti di video Reel) */
+    .ribbon-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.9;
+    }
+
+    /* Bola 3D Glossy Metalik (Proporsional) */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(
+        circle at 30% 28%,
+        #e0f2fe 0%,
+        #38bdf8 12%,
+        #0f172a 44%,
+        #020617 78%,
+        #0284c7 95%,
+        #bae6fd 100%
+      );
+      box-shadow:
+        inset -6px -6px 16px rgba(56, 189, 248, 0.45),
+        inset 4px 4px 12px rgba(255, 255, 255, 0.25),
+        0 16px 35px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(56, 189, 248, 0.2);
+    }
+
+    .orb-1 {
+      width: 74px;
+      height: 74px;
+      top: calc(50% - 130px);
+      left: calc(50% - 245px);
+      animation: floatOrb 6s ease-in-out infinite;
+    }
+
+    .orb-2 {
+      width: 64px;
+      height: 64px;
+      top: calc(50% + 45px);
+      right: calc(50% - 240px);
+      animation: floatOrb 7s ease-in-out infinite reverse;
+    }
+
+    .orb-3 {
+      width: 90px;
+      height: 90px;
+      bottom: -30px;
+      left: calc(50% - 210px);
+      filter: blur(2px);
+      opacity: 0.7;
+    }
+
+    @keyframes floatOrb {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* =======================================================
+       2. COMPACT GLASSY V3 CARD (PAS DI LAYAR LAPTOP & DESKTOP)
+       ======================================================= */
+    .card-stage {
+      position: relative;
+      z-index: 10;
+      width: 386px;
+      max-width: calc(100vw - 32px);
+      animation: cardEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes cardEnter {
+      0% { opacity: 0; transform: translateY(16px) scale(0.97); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Kepingan Segitiga Kaca Sudut Kiri-Atas & Kanan-Bawah */
+    .corner-tri-tl {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 52px;
+      height: 52px;
+      z-index: 14;
+      pointer-events: none;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.35));
+    }
+
+    .corner-tri-br {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 52px;
+      height: 52px;
+      z-index: 14;
+      pointer-events: none;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.35));
+    }
+
+    .card-stage:hover .corner-tri-tl {
+      transform: translate(-3px, -3px);
+    }
+
+    .card-stage:hover .corner-tri-br {
+      transform: translate(3px, 3px);
+    }
+
+    /* Badan Kaca Utama dengan Potongan Diagonal Halus */
+    .glass-body {
+      position: relative;
+      background:
+        radial-gradient(circle at 80% 10%, rgba(56, 189, 248, 0.16) 0%, transparent 45%),
+        radial-gradient(circle at 20% 90%, rgba(14, 165, 233, 0.14) 0%, transparent 45%),
+        linear-gradient(160deg, rgba(16, 26, 44, 0.78) 0%, rgba(8, 13, 24, 0.88) 100%);
+      backdrop-filter: blur(26px);
+      -webkit-backdrop-filter: blur(26px);
+      /* Clip path sesuai dengan SVG border di atasnya */
+      clip-path: polygon(
+        58px 0,
+        calc(100% - 18px) 0,
+        100% 18px,
+        100% calc(100% - 58px),
+        calc(100% - 58px) 100%,
+        18px 100%,
+        0 calc(100% - 18px),
+        0 58px
+      );
+      border-radius: 22px;
+      padding: 30px 28px 26px 28px;
+      box-shadow:
+        0 24px 50px rgba(0, 0, 0, 0.85),
+        0 0 35px rgba(56, 189, 248, 0.15);
+      overflow: hidden;
+    }
+
+    /* SVG Bingkai Garis Cyan Menyala (Mengikuti Sudut Potongan dengan Sempurna) */
+    .card-border-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 13;
+      filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.35));
+    }
+
+    /* Pantulan Cahaya di Bawah Kartu */
+    .floor-glow {
+      position: absolute;
+      bottom: -18px;
+      left: 14%;
+      right: 14%;
+      height: 18px;
+      background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.6) 0%, rgba(14, 165, 233, 0.15) 55%, transparent 80%);
+      filter: blur(10px);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* =======================================================
+       3. FORM CONTENT & TRANSITION SAAT LOADING
+       ======================================================= */
+    .form-content-layer {
+      position: relative;
+      z-index: 5;
+      transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .card-stage.is-loading .form-content-layer {
+      filter: blur(10px);
+      opacity: 0.12;
+      transform: scale(0.95);
+      pointer-events: none;
+    }
+
+    /* =======================================================
+       4. CONCENTRIC PORTAL SPINNER (PERSIS SCREENSHOT 1 REEL!)
+       ======================================================= */
+    .portal-loader-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.85);
+      transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .card-stage.is-loading .portal-loader-overlay {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .portal-ring-system {
+      position: relative;
+      width: 176px;
+      height: 176px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Cincin Luar Berpendar (Outer Halo) */
+    .portal-halo-outer {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(56, 189, 248, 0.03) 42%,
+        rgba(56, 189, 248, 0.22) 64%,
+        rgba(56, 189, 248, 0.05) 72%,
+        transparent 76%
+      );
+      border: 1.5px solid rgba(56, 189, 248, 0.25);
+      box-shadow:
+        0 0 35px rgba(56, 189, 248, 0.25),
+        inset 0 0 25px rgba(56, 189, 248, 0.2);
+      animation: pulseHalo 2s ease-in-out infinite;
+    }
+
+    /* Cincin Tengah Berputar (Spinning Cyan Arc) */
+    .portal-ring-mid {
+      position: absolute;
+      width: 132px;
+      height: 132px;
+      border-radius: 50%;
+      border: 2px solid rgba(56, 189, 248, 0.18);
+      border-top-color: #67e8f9;
+      border-bottom-color: #38bdf8;
+      box-shadow:
+        0 0 22px rgba(56, 189, 248, 0.45),
+        inset 0 0 18px rgba(56, 189, 248, 0.35);
+      animation: portalSpin 1.6s cubic-bezier(0.5, 0.15, 0.5, 0.85) infinite;
+    }
+
+    /* Orbit Segitiga Kaca (Persis Screenshot 1: Segitiga di Kiri-Atas & Kanan-Bawah Lingkaran!) */
+    .portal-tri-orbit {
+      position: absolute;
+      width: 118px;
+      height: 118px;
+      animation: orbitSpin 2.4s linear infinite;
+    }
+
+    .portal-tri-tl {
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      width: 38px;
+      height: 38px;
+      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.65));
+    }
+
+    .portal-tri-br {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 38px;
+      height: 38px;
+      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.65));
+    }
+
+    /* Inti Lingkaran Gelap di Tengah (Dark Core) */
+    .portal-core {
+      position: relative;
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #16243d 0%, #070d19 75%, #030712 100%);
+      border: 1.5px solid rgba(103, 232, 249, 0.45);
+      box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.85),
+        0 0 20px rgba(56, 189, 248, 0.4),
+        inset 0 2px 8px rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      z-index: 5;
+    }
+
+    @keyframes portalSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes orbitSpin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.04); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    @keyframes pulseHalo {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+
+    /* =======================================================
+       5. INPUTS & BUTTONS (COMPACT & SLEEK)
+       ======================================================= */
+    .glass-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #e2e8f0;
+      margin-bottom: 6px;
+    }
+
+    .glass-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .glass-input {
+      width: 100%;
+      height: 41px;
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 10px;
+      padding: 0 38px 0 38px;
+      color: #f8fafc;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s ease;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
+    }
+
+    .glass-input::placeholder {
+      color: rgba(148, 163, 184, 0.5);
+    }
+
+    .glass-input:hover {
+      border-color: rgba(148, 163, 184, 0.38);
+    }
+
+    .glass-input:focus {
+      border-color: #38bdf8;
+      background: rgba(15, 23, 42, 0.88);
+      box-shadow:
+        0 0 0 3px rgba(56, 189, 248, 0.15),
+        0 0 15px rgba(56, 189, 248, 0.22);
+    }
+
+    .glass-input.input-error {
+      border-color: #fb7185;
+      box-shadow: 0 0 0 3px rgba(251, 113, 133, 0.15);
+    }
+
+    .input-icon-left {
+      position: absolute;
+      left: 13px;
+      color: rgba(148, 163, 184, 0.65);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s ease;
+    }
+
+    .glass-input-wrap:focus-within .input-icon-left {
+      color: #38bdf8;
+    }
+
+    .input-icon-right {
+      position: absolute;
+      right: 11px;
+      color: rgba(148, 163, 184, 0.65);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s ease;
+    }
+
+    .input-icon-right:hover {
+      color: #f8fafc;
+    }
+
+    /* Checkbox Cyan */
+    .cyan-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1.5px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.6);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .cyan-checkbox:checked {
+      background: linear-gradient(135deg, #67e8f9 0%, #29b6f6 100%);
+      border-color: #67e8f9;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    .cyan-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      left: 4.5px;
+      top: 1.5px;
+      width: 4.5px;
+      height: 8px;
+      border: solid #030712;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    /* Tombol Glowing Cyan */
+    .btn-cyan-glow {
+      width: 100%;
+      height: 42px;
+      border-radius: 10px;
+      border: 1px solid rgba(186, 230, 253, 0.7);
+      background: linear-gradient(180deg, #67e8f9 0%, #38bdf8 55%, #0ea5e9 100%);
+      color: #030712;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow:
+        0 0 22px rgba(56, 189, 248, 0.45),
+        0 6px 16px rgba(2, 132, 199, 0.35),
+        inset 0 1px 1px rgba(255, 255, 255, 0.85);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-cyan-glow:hover:not(:disabled) {
+      transform: translateY(-1.5px);
+      background: linear-gradient(180deg, #a5f3fc 0%, #38bdf8 50%, #0284c7 100%);
+      box-shadow:
+        0 0 30px rgba(56, 189, 248, 0.75),
+        0 10px 22px rgba(2, 132, 199, 0.45),
+        inset 0 1px 2px rgba(255, 255, 255, 0.9);
+    }
+
+    .btn-arrow {
+      transition: transform 0.22s ease;
+    }
+
+    .btn-cyan-glow:hover:not(:disabled) .btn-arrow {
+      transform: translateX(4px);
+    }
+
+    .glass-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(148, 163, 184, 0.45);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 18px 0 14px 0;
+    }
+
+    .glass-divider::before,
+    .glass-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.2), transparent);
+    }
+
+    @keyframes shakeError {
+      10%, 90% { transform: translateX(-2px); }
+      20%, 80% { transform: translateX(4px); }
+      30%, 50%, 70% { transform: translateX(-5px); }
+      40%, 60% { transform: translateX(5px); }
+    }
+
+    .animate-shake {
+      animation: shakeError 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. BACKGROUND: 3D METALLIC RIBBONS & GLOSSY SPHERES -->
+  <div class="scene-bg">
+    <svg class="ribbon-svg" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="neonRibbon1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0284c7" stop-opacity="0"/>
+          <stop offset="35%" stop-color="#38bdf8" stop-opacity="0.85"/>
+          <stop offset="50%" stop-color="#e0f2fe" stop-opacity="1"/>
+          <stop offset="65%" stop-color="#0ea5e9" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#0284c7" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="darkMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0f172a"/>
+          <stop offset="50%" stop-color="#1e293b"/>
+          <stop offset="100%" stop-color="#040812"/>
+        </linearGradient>
+        <filter id="glowBlur" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="8" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+      </defs>
+
+      <!-- Pita Metalik Kiri Atas ke Kanan Bawah -->
+      <path d="M-120 180 C 320 -80, 680 650, 1560 320" stroke="url(#darkMetal)" stroke-width="56" stroke-linecap="round"/>
+      <path d="M-120 180 C 320 -80, 680 650, 1560 320" stroke="url(#neonRibbon1)" stroke-width="4" filter="url(#glowBlur)"/>
+
+      <!-- Pita Metalik Kanan Atas ke Kiri Bawah -->
+      <path d="M1520 -60 C 980 280, 520 120, -140 720" stroke="url(#darkMetal)" stroke-width="48" stroke-linecap="round"/>
+      <path d="M1520 -60 C 980 280, 520 120, -140 720" stroke="url(#neonRibbon1)" stroke-width="3.5" filter="url(#glowBlur)"/>
+
+      <!-- Busur Cahaya Bawah -->
+      <path d="M180 960 C 560 680, 920 740, 1340 960" stroke="url(#neonRibbon1)" stroke-width="2.5" opacity="0.6" filter="url(#glowBlur)"/>
+    </svg>
+
+    <!-- Bola 3D Glossy -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- 2. COMPACT GLASSY LOGIN FORM V3 -->
+  <div id="cardStage" class="card-stage">
+
+    <!-- Segitiga Kaca Terpisah Kiri-Atas (Detached Corner Triangle TL) -->
+    <svg class="corner-tri-tl" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 18 C4 9 9 4 18 4 L47 4 C51 4 53 8 49 12 L12 49 C8 53 4 51 4 47 Z"
+            fill="rgba(25, 45, 75, 0.55)"
+            stroke="#67e8f9"
+            stroke-width="1.5"/>
+    </svg>
+
+    <!-- Segitiga Kaca Terpisah Kanan-Bawah (Detached Corner Triangle BR) -->
+    <svg class="corner-tri-br" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M52 38 C52 47 47 52 38 52 L9 52 C5 52 3 48 7 44 L44 7 C48 3 52 5 52 9 Z"
+            fill="rgba(25, 45, 75, 0.55)"
+            stroke="#67e8f9"
+            stroke-width="1.5"/>
+    </svg>
+
+    <!-- SVG Bingkai Kontinu Menyala (Mengikuti Sudut Potongan Diagonal) -->
+    <svg class="card-border-svg" viewBox="0 0 386 440" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="cardEdgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.95"/>
+          <stop offset="20%" stop-color="#38bdf8" stop-opacity="0.65"/>
+          <stop offset="50%" stop-color="#94a3b8" stop-opacity="0.22"/>
+          <stop offset="80%" stop-color="#38bdf8" stop-opacity="0.65"/>
+          <stop offset="100%" stop-color="#e0f2fe" stop-opacity="0.95"/>
+        </linearGradient>
+      </defs>
+      <!-- Path Octagon dengan Sudut Membulat Halus -->
+      <path d="M 60 1.5
+               L 366 1.5
+               Q 384.5 1.5 384.5 20
+               L 384.5 380
+               L 326 438.5
+               L 20 438.5
+               Q 1.5 438.5 1.5 420
+               L 1.5 60
+               Z"
+            stroke="url(#cardEdgeGrad)"
+            stroke-width="1.8"
+            stroke-linejoin="round"/>
+      <!-- Titik Highlight Putih-Cyan di Sudut Potongan seperti di Reel -->
+      <line x1="60" y1="1.5" x2="125" y2="1.5" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="260" y1="438.5" x2="326" y2="438.5" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+    </svg>
+
+    <!-- Isi Kartu Kaca -->
+    <div class="glass-body">
+
+      <!-- =========================================================
+           OVERLAY ANIMASI LOADING PORTAL (PERSIS SCREENSHOT 1 REEL)
+           ========================================================= -->
+      <div id="portalLoader" class="portal-loader-overlay">
+        <div class="portal-ring-system">
+          <!-- Lingkaran Aura Luar -->
+          <div class="portal-halo-outer"></div>
+          <!-- Cincin Cyan Berputar -->
+          <div class="portal-ring-mid"></div>
+
+          <!-- Dua Segitiga Kaca yang Mengorbit di Kiri-Atas & Kanan-Bawah Inti -->
+          <div class="portal-tri-orbit">
+            <svg class="portal-tri-tl" viewBox="0 0 42 42" fill="none">
+              <path d="M4 14 C4 7 7 4 14 4 L35 4 C38 4 40 7 37 10 L10 37 C7 40 4 38 4 35 Z"
+                    fill="rgba(56, 189, 248, 0.32)"
+                    stroke="#67e8f9"
+                    stroke-width="1.6"/>
+            </svg>
+            <svg class="portal-tri-br" viewBox="0 0 42 42" fill="none">
+              <path d="M38 28 C38 35 35 38 28 38 L7 38 C4 38 2 35 5 32 L32 5 C35 2 38 4 38 7 Z"
+                    fill="rgba(56, 189, 248, 0.32)"
+                    stroke="#67e8f9"
+                    stroke-width="1.6"/>
+            </svg>
+          </div>
+
+          <!-- Inti Gelap Tengah dengan Ikon Play / Check Glowing -->
+          <div class="portal-core">
+            <svg id="portalPlayIcon" class="ml-1 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 4.75a1.25 1.25 0 0 1 1.92-.98l11.5 7.25a1.25 1.25 0 0 1 0 2.12l-11.5 7.25A1.25 1.25 0 0 1 6 19.25V4.75Z"/>
+            </svg>
+            <svg id="portalCheckIcon" class="hidden text-[#67e8f9] drop-shadow-[0_0_12px_#38bdf8]" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </div>
+
+        <p id="portalStatusText" class="mt-4 text-xs font-semibold tracking-wider uppercase text-[#67e8f9] drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]">
+          Authenticating...
+        </p>
+      </div>
+
+      <!-- =========================================================
+           LAYER FORMULIR LOGIN UTAMA
+           ========================================================= -->
+      <div class="form-content-layer">
+
+        <!-- Header Dua Warna: Putih & Cyan -->
+        <div class="mb-5">
+          <h1 class="text-[23px] font-extrabold tracking-tight leading-snug">
+            <span class="text-white">Welcome </span>
+            <span class="text-[#38bdf8] drop-shadow-[0_0_10px_rgba(56,189,248,0.4)]">Back</span>
+          </h1>
+          <p class="text-[12px] text-slate-400 mt-1">
+            Sign in today to access your secure workspace
+          </p>
+        </div>
+
+        <!-- Notifikasi Error -->
+        <div id="alertBox" class="hidden mb-4 px-3.5 py-2.5 rounded-lg border text-[11.5px] flex items-center gap-2.5">
+          <span id="alertIcon" class="shrink-0"></span>
+          <span id="alertMessage" class="font-medium leading-snug"></span>
+        </div>
+
+        <!-- Form Login -->
+        <form id="loginForm" onsubmit="handleFormSubmit(event)" novalidate class="space-y-3.5">
+
+          <!-- Input Email / Username -->
+          <div>
+            <label for="usernameInput" class="glass-label">Email Address / Username</label>
+            <div class="glass-input-wrap">
+              <span class="input-icon-left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+              </span>
+              <input
+                type="text"
+                id="usernameInput"
+                name="username"
+                autocomplete="username"
+                required
+                autofocus
+                placeholder="name@domain.com"
+                class="glass-input"
+              >
+            </div>
+          </div>
+
+          <!-- Input Password -->
+          <div>
+            <label for="passwordInput" class="glass-label">Password</label>
+            <div class="glass-input-wrap">
+              <span class="input-icon-left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </span>
+              <input
+                type="password"
+                id="passwordInput"
+                name="password"
+                autocomplete="current-password"
+                required
+                placeholder="••••••••"
+                class="glass-input"
+              >
+              <button
+                type="button"
+                onclick="togglePasswordVisibility()"
+                aria-label="Tampilkan atau sembunyikan password"
+                class="input-icon-right"
+              >
+                <svg id="eyeOpenIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg id="eyeClosedIcon" class="hidden text-[#38bdf8]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/>
+                  <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/>
+                  <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/>
+                  <path d="m2 2 20 20"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Checkbox Sesi -->
+          <div class="flex items-center justify-between pt-0.5">
+            <label class="flex items-center gap-2 cursor-pointer text-[12px] text-slate-300">
+              <input type="checkbox" checked class="cyan-checkbox">
+              <span>Keep my session active</span>
+            </label>
+            <span class="text-[11px] font-medium text-[#38bdf8]">Encrypted Auth</span>
+          </div>
+
+          <!-- Tombol Sign In Glowing Cyan -->
+          <div class="pt-1.5">
+            <button type="submit" id="btnSubmit" class="btn-cyan-glow">
+              <span>Sign In</span>
+              <svg class="btn-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/>
+                <path d="m12 5 7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+
+        </form>
+
+        <!-- Divider & Badges -->
+        <div class="glass-divider">WORKSPACE PROTECTION</div>
+
+        <div class="grid grid-cols-2 gap-2.5">
+          <div class="flex items-center justify-center gap-2 py-2 px-2.5 rounded-lg bg-slate-900/60 border border-slate-700/40 text-[11.5px] text-slate-200 font-medium">
+            <span class="w-2 h-2 rounded-full bg-[#38bdf8] shadow-[0_0_8px_#38bdf8]"></span>
+            <span>Anti-Banned v2</span>
+          </div>
+          <div class="flex items-center justify-center gap-2 py-2 px-2.5 rounded-lg bg-slate-900/60 border border-slate-700/40 text-[11.5px] text-slate-200 font-medium">
+            <svg class="text-[#38bdf8]" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+            </svg>
+            <span>Multi-User Role</span>
+          </div>
+        </div>
+
+        <p class="text-center text-[11px] text-slate-400 mt-4">
+          Authorized access only • Managed by <span class="text-[#38bdf8] font-semibold">Super Admin</span>
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- Pantulan Cahaya di Lantai -->
+    <div class="floor-glow"></div>
+
+  </div>
+
+  <!-- SCRIPT LOGIKA LOGIN & ANIMASI PORTAL -->
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch('/api/auth/me');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.user) {
+            localStorage.setItem('wa_sender_user', JSON.stringify(data.user));
+            window.location.replace('/');
+          }
+        }
+      } catch (e) {}
+    });
+
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('passwordInput');
+      const eyeOpen = document.getElementById('eyeOpenIcon');
+      const eyeClosed = document.getElementById('eyeClosedIcon');
+
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeOpen.classList.add('hidden');
+        eyeClosed.classList.remove('hidden');
+      } else {
+        passwordInput.type = 'password';
+        eyeOpen.classList.remove('hidden');
+        eyeClosed.classList.add('hidden');
+      }
+    }
+
+    function showAlert(type, message) {
+      const alertBox = document.getElementById('alertBox');
+      const alertIcon = document.getElementById('alertIcon');
+      const alertMessage = document.getElementById('alertMessage');
+
+      alertBox.className = 'mb-4 px-3.5 py-2.5 rounded-lg border text-[11.5px] flex items-center gap-2.5 animate-shake';
+
+      if (type === 'error') {
+        alertBox.classList.add('bg-rose-950/75', 'border-rose-500/45', 'text-rose-200');
+        alertIcon.innerHTML = `<svg class="text-rose-400" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>`;
+      } else {
+        alertBox.classList.add('bg-sky-950/75', 'border-sky-400/45', 'text-sky-200');
+        alertIcon.innerHTML = `<svg class="text-sky-400" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>`;
+      }
+
+      alertMessage.textContent = message;
+    }
+
+    function hideAlert() {
+      const alertBox = document.getElementById('alertBox');
+      if (alertBox) alertBox.classList.add('hidden');
+    }
+
+    function setPortalLoading(active, statusText = 'Authenticating...') {
+      const stage = document.getElementById('cardStage');
+      const statusEl = document.getElementById('portalStatusText');
+      const playIcon = document.getElementById('portalPlayIcon');
+      const checkIcon = document.getElementById('portalCheckIcon');
+
+      if (statusEl) statusEl.textContent = statusText;
+
+      if (active) {
+        playIcon.classList.remove('hidden');
+        checkIcon.classList.add('hidden');
+        stage.classList.add('is-loading');
+      } else {
+        stage.classList.remove('is-loading');
+      }
+    }
+
+    async function handleFormSubmit(event) {
+      event.preventDefault();
+      hideAlert();
+
+      const usernameInput = document.getElementById('usernameInput');
+      const passwordInput = document.getElementById('passwordInput');
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+
+      usernameInput.classList.remove('input-error');
+      passwordInput.classList.remove('input-error');
+
+      if (!username || !password) {
+        if (!username) usernameInput.classList.add('input-error');
+        if (!password) passwordInput.classList.add('input-error');
+        showAlert('error', 'Harap isi Email/Username dan Password Anda.');
+        return;
+      }
+
+      // Aktifkan animasi lingkaran berputar di tengah kartu (seperti Screenshot 1)
+      setPortalLoading(true, 'Verifying Credentials...');
+
+      try {
+        const [res] = await Promise.all([
+          fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          }),
+          // Beri jeda 1.1 detik agar animasi putaran portal terlihat jelas & elegan
+          new Promise(r => setTimeout(r, 1100))
+        ]);
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          // Ubah ikon tengah menjadi centang biru & teks Access Granted
+          document.getElementById('portalPlayIcon').classList.add('hidden');
+          document.getElementById('portalCheckIcon').classList.remove('hidden');
+          document.getElementById('portalStatusText').textContent = 'Access Granted!';
+
+          if (data.user) {
+            localStorage.setItem('wa_sender_user', JSON.stringify(data.user));
+          }
+          if (data.token) {
+            localStorage.setItem('wa_sender_token', data.token);
+          }
+
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 650);
+        } else {
+          setPortalLoading(false);
+          showAlert('error', data.message || 'Email/Username atau password salah.');
+          passwordInput.value = '';
+          passwordInput.focus();
+        }
+      } catch (err) {
+        setPortalLoading(false);
+        showAlert('error', 'Gagal terhubung ke server. Pastikan aplikasi aktif.');
+      }
+    }
+  </script>
+</body>
+</html>

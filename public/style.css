@@ -1,0 +1,289 @@
+/* ========================================================
+   WA OFFER SENDER - SCI-FI DARK GLASSMORPHISM THEME
+   Aligned with Glassy V3 Cyberpunk / Futuristic Style
+   ======================================================== */
+
+@keyframes scaleUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scaleUp {
+  animation: scaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom Scrollbar Dark Glass */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #03060c;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 6px;
+  border: 1px solid rgba(56, 189, 248, 0.15);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0284c7;
+  box-shadow: 0 0 8px #38bdf8;
+}
+
+#logConsole::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+#logConsole::-webkit-scrollbar-thumb {
+  background: #0f172a;
+}
+
+/* ========================================================
+   STATUS BADGES (DARK GLASS WITH NEON GLOW)
+   ======================================================== */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: all 0.2s ease;
+}
+
+/* Siap Kirim (Pending) */
+.status-READY {
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
+}
+
+/* Sedang Mengetik */
+.status-TYPING {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+  animation: pulse 1.5s infinite;
+}
+
+/* Sukses Terkirim */
+.status-SUCCESS {
+  background: rgba(16, 185, 129, 0.14);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.18);
+}
+
+/* Gagal Terkirim */
+.status-FAILED {
+  background: rgba(244, 63, 94, 0.14);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.4);
+  box-shadow: 0 0 10px rgba(244, 63, 94, 0.18);
+}
+
+/* Dilewati */
+.status-SKIPPED {
+  background: rgba(100, 116, 139, 0.14);
+  color: #94a3b8;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+/* Nomor Diblokir (Blacklist STOP) */
+.status-BLACKLISTED {
+  background: rgba(239, 68, 68, 0.16);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+/* Sudah Pernah Dikirim */
+.status-ALREADY_SENT {
+  background: rgba(217, 119, 6, 0.15);
+  color: #fcd34d;
+  border: 1px solid rgba(217, 119, 6, 0.4);
+  box-shadow: 0 0 10px rgba(217, 119, 6, 0.15);
+}
+
+/* Duplikat / Nomor Invalid */
+.status-DUPLICATE,
+.status-INVALID {
+  background: rgba(71, 85, 105, 0.2);
+  color: #cbd5e1;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+/* ========================================================
+   CYAN GLOW UTILITIES
+   ======================================================== */
+.cyan-glow-box {
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 25px rgba(56, 189, 248, 0.08);
+}
+
+.cyan-glow-box:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+.btn-cyan-action {
+  background: linear-gradient(180deg, #67e8f9 0%, #38bdf8 55%, #0ea5e9 100%);
+  color: #030712;
+  font-weight: 700;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-cyan-action:hover {
+  transform: translateY(-1.5px);
+  background: linear-gradient(180deg, #a5f3fc 0%, #38bdf8 50%, #0284c7 100%);
+  box-shadow: 0 0 28px rgba(56, 189, 248, 0.7), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+}
+
+.btn-cyan-action:active {
+  transform: translateY(0);
+}
+
+/* ========================================================
+   APP SHELL: BACKGROUND, PANEL, FIELD, TABLE, MODAL
+   ======================================================== */
+html { color-scheme: dark; }
+
+body.app-body {
+  font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+  background-color: #03060c;
+  color: #e2e8f0;
+  min-height: 100vh;
+}
+
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.16) 0%, rgba(2, 132, 199, 0.04) 45%, transparent 70%),
+    radial-gradient(circle at 90% 85%, rgba(56, 189, 248, 0.09) 0%, transparent 45%),
+    linear-gradient(180deg, #050a14 0%, #020408 100%);
+}
+
+.app-bg svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.55; }
+
+.app-layer { position: relative; z-index: 1; }
+
+/* Panel kaca gelap */
+.glass-panel {
+  background: linear-gradient(160deg, rgba(16, 26, 44, 0.78) 0%, rgba(8, 13, 24, 0.86) 100%);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  border-radius: 1rem;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.6), 0 0 22px rgba(56, 189, 248, 0.05);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65), 0 0 28px rgba(56, 189, 248, 0.1);
+}
+
+.panel-head { border-bottom: 1px solid rgba(148, 163, 184, 0.14); }
+
+/* Navbar */
+.glass-nav {
+  background: rgba(5, 10, 20, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.18);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Input / select / textarea gelap */
+.field-dark {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  color: #f1f5f9;
+  border-radius: 0.65rem;
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.field-dark::placeholder { color: rgba(148, 163, 184, 0.5); }
+.field-dark:hover { border-color: rgba(148, 163, 184, 0.38); }
+.field-dark:focus {
+  border-color: #38bdf8;
+  background: rgba(15, 23, 42, 0.9);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15), 0 0 14px rgba(56, 189, 248, 0.2);
+}
+
+select.field-dark option { background: #0b1220; color: #e2e8f0; }
+
+/* Tabel gelap */
+.table-dark thead { background: rgba(15, 23, 42, 0.95); color: #94a3b8; border-bottom: 1px solid rgba(56, 189, 248, 0.2); }
+.table-dark thead th { font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; font-size: 10.5px; }
+.table-dark tbody tr { border-color: rgba(148, 163, 184, 0.1); }
+.table-dark tbody { color: #cbd5e1; }
+.table-dark tbody tr:hover { background: rgba(56, 189, 248, 0.05); }
+
+/* Modal gelap bergaya kaca */
+.modal-glass {
+  background: linear-gradient(160deg, rgba(16, 26, 44, 0.96) 0%, rgba(7, 12, 22, 0.98) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(56, 189, 248, 0.12);
+  color: #e2e8f0;
+}
+
+.modal-glass .modal-divider { border-color: rgba(148, 163, 184, 0.14); }
+
+/* Tombol sekunder / bahaya */
+.btn-ghost {
+  background: rgba(100, 116, 139, 0.16);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  color: #e2e8f0;
+  transition: all 0.2s ease;
+}
+.btn-ghost:hover { background: rgba(100, 116, 139, 0.3); border-color: rgba(148, 163, 184, 0.4); }
+
+.btn-danger-soft {
+  background: rgba(244, 63, 94, 0.12);
+  border: 1px solid rgba(244, 63, 94, 0.32);
+  color: #fda4af;
+  transition: all 0.2s ease;
+}
+.btn-danger-soft:hover { background: rgba(244, 63, 94, 0.22); }
+
+.btn-soft-sky {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #7dd3fc;
+  transition: all 0.2s ease;
+}
+.btn-soft-sky:hover { background: rgba(56, 189, 248, 0.22); }
+
+code.code-dark {
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  color: #7dd3fc;
+  padding: 1px 6px;
+  border-radius: 5px;
+}
+
+.neon-text { text-shadow: 0 0 14px rgba(56, 189, 248, 0.45); }
